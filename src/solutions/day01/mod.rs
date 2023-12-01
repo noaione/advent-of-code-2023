@@ -1,5 +1,3 @@
-use regex::Regex;
-
 use crate::solutions::common::split_into_lines;
 
 pub fn part_one(input: &str) -> Option<u32> {
@@ -26,35 +24,45 @@ pub fn part_one(input: &str) -> Option<u32> {
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    let digits_re = Regex::new(r"(one|two|three|four|five|six|seven|eight|nine|\d)").unwrap();
+    let digits = [
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+    ];
 
     Some(
         split_into_lines(input)
             .map(|data| {
-                let result: Vec<u32> = digits_re
-                    .captures_iter(data)
-                    .map(|mat| {
-                        let res = mat.get(0).unwrap().as_str();
+                let mut results: Vec<usize> = Vec::new();
+                let chars: Vec<char> = data.chars().collect();
 
-                        res.parse::<u32>().unwrap_or(match res {
-                            "one" => 1,
-                            "two" => 2,
-                            "three" => 3,
-                            "four" => 4,
-                            "five" => 5,
-                            "six" => 6,
-                            "seven" => 7,
-                            "eight" => 8,
-                            "nine" => 9,
-                            _ => 0,
-                        })
-                    })
-                    .collect();
+                for i in 0..data.len() {
+                    // get current char
+                    let current = chars.get(i).unwrap();
+
+                    if current.is_ascii_digit() {
+                        results.push(current.to_digit(10).unwrap() as usize)
+                    }
+
+                    let part = &data[i..];
+
+                    match digits
+                        .iter()
+                        .enumerate()
+                        .find(|(_, &digit)| part.starts_with(digit))
+                    {
+                        Some((idx, _)) => {
+                            results.push(idx + 1);
+                        }
+                        None => {
+                            continue;
+                        }
+                    }
+                }
 
                 // get first and last
-                let first = result[0];
-                let last = result[result.len() - 1];
+                let first = results[0];
+                let last = results[results.len() - 1];
 
+                // create pairs
                 format!("{}{}", first, last)
                     .parse::<u32>()
                     .expect("Could not parse")
