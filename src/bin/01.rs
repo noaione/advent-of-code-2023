@@ -3,7 +3,7 @@ use regex::Regex;
 advent_of_code::solution!(1);
 
 pub fn common_split(input: &str) -> impl Iterator<Item = &str> {
-    input.split("\n").filter(|line| !line.is_empty())
+    input.split('\n').filter(|line| !line.is_empty())
 }
 
 pub fn part_one(input: &str) -> Option<u32> {
@@ -25,11 +25,9 @@ pub fn part_one(input: &str) -> Option<u32> {
                 let last = chars[chars.len() - 1];
 
                 // create pairs
-                let data = format!("{}{}", first, last)
+                format!("{}{}", first, last)
                     .parse::<u32>()
-                    .expect("Could not parse");
-
-                data
+                    .expect("Could not parse")
             })
             .sum::<u32>(),
     )
@@ -45,7 +43,8 @@ pub fn part_two(input: &str) -> Option<u32> {
                     .captures_iter(data)
                     .map(|mat| {
                         let res = mat.get(0).unwrap().as_str();
-                        let num = res.parse::<u32>().unwrap_or_else(|_| match res {
+
+                        res.parse::<u32>().unwrap_or(match res {
                             "one" => 1,
                             "two" => 2,
                             "three" => 3,
@@ -56,9 +55,7 @@ pub fn part_two(input: &str) -> Option<u32> {
                             "eight" => 8,
                             "nine" => 9,
                             _ => 0,
-                        });
-
-                        num
+                        })
                     })
                     .collect();
 
