@@ -11,19 +11,16 @@ pub fn part_one(input: &str) -> Option<u32> {
                     .collect();
 
                 // get first and last
-                let first = chars[0];
-                let last = chars[chars.len() - 1];
+                let first = chars.first().unwrap();
+                let last = chars.last().unwrap();
 
-                // create pairs
-                format!("{}{}", first, last)
-                    .parse::<u32>()
-                    .expect("Could not parse")
+                first * 10 + last
             })
             .sum::<u32>(),
     )
 }
 
-pub fn part_two(input: &str) -> Option<u32> {
+pub fn part_two(input: &str) -> Option<usize> {
     let digits = [
         "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
     ];
@@ -59,14 +56,11 @@ pub fn part_two(input: &str) -> Option<u32> {
                 }
 
                 // get first and last
-                let first = results[0];
-                let last = results[results.len() - 1];
+                let first = results.first().unwrap();
+                let last = results.last().unwrap();
 
-                // create pairs
-                format!("{}{}", first, last)
-                    .parse::<u32>()
-                    .expect("Could not parse")
+                first * 10 + last
             })
-            .sum::<u32>(),
+            .sum(),
     )
 }
