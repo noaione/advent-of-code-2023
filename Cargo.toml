@@ -12,6 +12,7 @@ doctest = false
 
 [features]
 test_lib = []
+ci = []
 
 [dependencies]
 itertools = "0.12.0"
