@@ -16,10 +16,6 @@ pub fn part_one(input: &str) -> Option<u32> {
                     .map(|c| c.parse::<u32>().expect("Could not parse"))
                     .collect();
 
-                if chars.is_empty() {
-                    return 0;
-                }
-
                 // get first and last
                 let first = chars[0];
                 let last = chars[chars.len() - 1];
@@ -58,10 +54,6 @@ pub fn part_two(input: &str) -> Option<u32> {
                         })
                     })
                     .collect();
-
-                if result.is_empty() {
-                    return 0;
-                }
 
                 // get first and last
                 let first = result[0];
