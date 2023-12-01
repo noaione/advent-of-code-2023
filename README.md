@@ -11,3 +11,13 @@ https://adventofcode.com/2022
 ## Running
 
 See https://github.com/fspoettel/advent-of-code-rust for Rust
+
+<!--- benchmarking table --->
+## Benchmarks
+
+| Day | Part 1 | Part 2 |
+| :---: | :---: | :---:  |
+| [Day 1](./src/bin/01.rs) | `192.9µs` | `2.2ms` |
+
+**Total: 2.39ms**
+<!--- benchmarking table --->
