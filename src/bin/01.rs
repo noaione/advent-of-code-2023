@@ -1,9 +1,5 @@
 advent_of_code::solution!(1);
 
-pub fn common_split(input: &str) -> impl Iterator<Item = &str> {
-    input.split('\n').filter(|line| !line.is_empty())
-}
-
 pub fn part_one(input: &str) -> Option<u32> {
     advent_of_code::solutions::day01::part_one(input)
 }
@@ -12,37 +8,4 @@ pub fn part_two(input: &str) -> Option<usize> {
     advent_of_code::solutions::day01::part_two(input)
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_part_one() {
-        let result = part_one(&advent_of_code::template::read_file_part(
-            "examples", DAY, 1,
-        ));
-        assert_eq!(result, Some(142));
-    }
-
-    #[test]
-    fn test_part_two() {
-        let result = part_two(&advent_of_code::template::read_file_part(
-            "examples", DAY, 2,
-        ));
-        assert_eq!(result, Some(281));
-    }
-
-    #[test]
-    #[cfg_attr(feature = "ci", ignore)]
-    fn test_part_one_input() {
-        let result = part_one(&advent_of_code::template::read_file("inputs", DAY));
-        assert_eq!(result, Some(53334));
-    }
-
-    #[test]
-    #[cfg_attr(feature = "ci", ignore)]
-    fn test_part_two_input() {
-        let result = part_two(&advent_of_code::template::read_file("inputs", DAY));
-        assert_eq!(result, Some(52834));
-    }
-}
+advent_of_code::aoc_test_ex!(DAY, Some(142), Some(281), Some(53334), Some(52834));
