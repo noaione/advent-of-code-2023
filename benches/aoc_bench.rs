@@ -8,10 +8,26 @@ fn bench_day_one(c: &mut Criterion) {
         b.iter(|| advent_of_code::solutions::day01::part_one(&inputs))
     });
 
-    c.bench_function("part_two", |b| {
+    c.bench_function("part_b", |b| {
         b.iter(|| advent_of_code::solutions::day01::part_two(&inputs))
     });
 }
 
-criterion_group!(benches, bench_day_one);
+fn bench_day_two(c: &mut Criterion) {
+    let inputs = advent_of_code::template::read_file("inputs", Day::new(2).unwrap());
+
+    c.bench_function("part_a", |b| {
+        b.iter(|| advent_of_code::solutions::day02::part_one(&inputs))
+    });
+
+    c.bench_function("part_b", |b| {
+        b.iter(|| advent_of_code::solutions::day02::part_two(&inputs))
+    });
+}
+
+criterion_group!(
+    name = benches;
+    config = Criterion::default();
+    targets = bench_day_one, bench_day_two
+);
 criterion_main!(benches);
