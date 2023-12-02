@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use crate::solutions::common::split_into_lines;
 
 fn map_color(color: &str) -> Option<u32> {
@@ -42,34 +40,38 @@ pub fn part_one(input: &str) -> Option<usize> {
     )
 }
 
-pub fn part_two(input: &str) -> Option<u64> {
+pub fn part_two(input: &str) -> Option<u32> {
     Some(
         split_into_lines(input)
             .map(|line| {
                 let (_, sequences) = line.split_once(": ").unwrap();
 
-                let mut max_most = HashMap::new();
-                max_most.insert("red", 0);
-                max_most.insert("green", 0);
-                max_most.insert("blue", 0);
+                let mut red_most: u32 = 0;
+                let mut green_most: u32 = 0;
+                let mut blue_most: u32 = 0;
 
                 sequences.split("; ").for_each(|group| {
                     group.split(", ").for_each(|color| {
                         let (count, color_act) = color.split_once(' ').unwrap();
                         let count_32 = count.parse::<u32>().unwrap();
 
-                        // if count_32 is less than max_most[color_act]
-                        if count_32 > max_most[color_act] {
-                            max_most.insert(color_act, count_32);
+                        match color_act {
+                            "red" => {
+                                red_most = red_most.max(count_32);
+                            }
+                            "green" => {
+                                green_most = green_most.max(count_32);
+                            }
+                            "blue" => {
+                                blue_most = blue_most.max(count_32);
+                            }
+                            _ => panic!("Invalid color!"),
                         }
                     })
                 });
 
-                max_most
-                    .iter()
-                    .filter_map(|(_, &v)| if v == 0 { None } else { Some(v as u64) })
-                    .product::<u64>()
+                red_most * green_most * blue_most
             })
-            .sum::<u64>(),
+            .sum::<u32>(),
     )
 }

@@ -17,8 +17,8 @@ See https://github.com/fspoettel/advent-of-code-rust for Rust
 
 | Day | Part 1 | Part 2 |
 | :---: | :---: | :---:  |
-| [Day 1](./src/bin/01.rs) | `116.1µs` | `752.2µs` |
-| [Day 2](./src/bin/02.rs) | `39.5µs` | `94.7µs` |
+| [Day 1](./src/bin/01.rs) | `111.0µs` | `677.4µs` |
+| [Day 2](./src/bin/02.rs) | `37.0µs` | `31.9µs` |
 
-**Total: 1.00ms**
+**Total: 0.86ms**
 <!--- benchmarking table --->

@@ -4,7 +4,7 @@ pub fn part_one(input: &str) -> Option<usize> {
     advent_of_code::solutions::day02::part_one(input)
 }
 
-pub fn part_two(input: &str) -> Option<u64> {
+pub fn part_two(input: &str) -> Option<u32> {
     advent_of_code::solutions::day02::part_two(input)
 }
 
