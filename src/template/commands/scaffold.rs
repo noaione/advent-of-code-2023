@@ -16,36 +16,7 @@ pub fn part_two(input: &str) -> Option<u32> {
     advent_of_code::solutions::dayDAYPART::part_two(input)
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_part_one() {
-        let result = part_one(&advent_of_code::template::read_file("examples", DAY));
-        assert_eq!(result, None);
-    }
-
-    #[test]
-    fn test_part_two() {
-        let result = part_two(&advent_of_code::template::read_file("examples", DAY));
-        assert_eq!(result, None);
-    }
-
-    // #[test]
-    // #[cfg_attr(feature = "ci", ignore)]
-    // fn test_part_one_input() {
-    //     let result = part_one(&advent_of_code::template::read_file("inputs", DAY));
-    //     assert_eq!(result, None);
-    // }
-
-    // #[test]
-    // #[cfg_attr(feature = "ci", ignore)]
-    // fn test_part_two_input() {
-    //     let result = part_two(&advent_of_code::template::read_file("inputs", DAY));
-    //     assert_eq!(result, None);
-    // }
-}
+advent_of_code::aoc_test!(DAY_NUMBER);
 "#;
 
 const SOLUTIONS_TEMPLATE: &str = r#"use crate::solutions::common::split_into_lines;
