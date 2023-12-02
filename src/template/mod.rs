@@ -3,6 +3,7 @@ use std::{env, fs};
 
 pub mod aoc_cli;
 pub mod commands;
+pub mod macros;
 pub mod readme_benchmarks;
 pub mod runner;
 
