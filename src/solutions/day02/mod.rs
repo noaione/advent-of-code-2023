@@ -1,14 +1,5 @@
 use crate::solutions::common::split_into_lines;
 
-fn map_color(color: &str) -> Option<u32> {
-    match color {
-        "red" => Some(12),
-        "green" => Some(13),
-        "blue" => Some(14),
-        _ => None,
-    }
-}
-
 pub fn part_one(input: &str) -> Option<usize> {
     Some(
         split_into_lines(input)
@@ -22,7 +13,12 @@ pub fn part_one(input: &str) -> Option<usize> {
                         .filter(|&color| {
                             let (count, color) = color.split_once(' ').unwrap();
                             let count_32 = count.parse::<u32>().unwrap();
-                            let color_max = map_color(color).unwrap();
+                            let color_max = match color {
+                                "red" => 12,
+                                "green" => 13,
+                                "blue" => 14,
+                                _ => panic!("Invalid color!"),
+                            };
 
                             count_32 > color_max
                         })
