@@ -17,6 +17,7 @@ pub fn part_two(input: &str) -> Option<u32> {
 }
 
 advent_of_code::aoc_test!(DAY);
+// advent_of_code::aoc_test_real!(DAY, None, None);
 "#;
 
 const SOLUTIONS_TEMPLATE: &str = r#"use crate::solutions::common::split_into_lines;

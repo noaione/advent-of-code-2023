@@ -8,4 +8,5 @@ pub fn part_two(input: &str) -> Option<u32> {
     advent_of_code::solutions::day02::part_two(input)
 }
 
-advent_of_code::aoc_test!(DAY, Some(8), Some(2286), Some(2006), Some(84911));
+advent_of_code::aoc_test!(DAY, Some(8), Some(2286));
+advent_of_code::aoc_test_real!(DAY, Some(2006), Some(84911));
