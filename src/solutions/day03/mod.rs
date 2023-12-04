@@ -44,15 +44,11 @@ fn check_adjacent(
     let right = row.get(idx + 1..idx + 2).unwrap_or("0");
 
     let top_current = maybe_adjacent(top_row, idx);
-    let top_left = min
-        .and_then(|x| Some(maybe_adjacent(top_row, x)))
-        .unwrap_or("0");
+    let top_left = min.map(|x| maybe_adjacent(top_row, x)).unwrap_or("0");
     let top_right = maybe_adjacent(top_row, idx + 1);
 
     let bottom_current = maybe_adjacent(bottom_row, idx);
-    let bottom_left = min
-        .and_then(|x| Some(maybe_adjacent(bottom_row, x)))
-        .unwrap_or("0");
+    let bottom_left = min.map(|x| maybe_adjacent(bottom_row, x)).unwrap_or("0");
     let bottom_right = maybe_adjacent(bottom_row, idx + 1);
 
     // check if current is adjacent to "2"
@@ -184,11 +180,13 @@ pub fn part_one(input: &str) -> Option<u32> {
     )
 }
 
+// TODO: Refactor
+#[allow(clippy::too_many_arguments)]
 fn get_adjacent_number_pairs(
     left_line: &str,
     right_line: &str,
-    left_pairs: &String,
-    right_pairs: &String,
+    left_pairs: &str,
+    right_pairs: &str,
     left_idx: usize,
     right_idx: usize,
     backward_left: bool,
@@ -251,13 +249,13 @@ pub fn part_two(input: &str) -> Option<u64> {
                         number_vec.push((left_num, right_num));
                     } else if left_get == "1" && right_get != "1" {
                         // available on left, check on top/bottom
-                        let start_min = idx.checked_sub(1).unwrap_or(0);
+                        let start_min = idx.saturating_sub(1);
                         let top_index = match top_row {
-                            Some(x) => x.get(start_min..idx + 2).unwrap_or("").contains("1"),
+                            Some(x) => x.get(start_min..idx + 2).unwrap_or("").contains('1'),
                             None => false,
                         };
                         let bottom_index = match bottom_row {
-                            Some(x) => x.get(start_min..idx + 2).unwrap_or("").contains("1"),
+                            Some(x) => x.get(start_min..idx + 2).unwrap_or("").contains('1'),
                             None => false,
                         };
 
@@ -287,7 +285,7 @@ pub fn part_two(input: &str) -> Option<u64> {
 
                             let top_cur_idx = top_row.unwrap().get(idx..idx + 1).unwrap_or(".");
                             let top_cur = match top_cur_idx {
-                                "1" => &top_line.get(idx..idx + 1).unwrap_or(""),
+                                "1" => top_line.get(idx..idx + 1).unwrap_or(""),
                                 _ => "",
                             };
 
@@ -315,7 +313,7 @@ pub fn part_two(input: &str) -> Option<u64> {
                             let bottom_cur_idx =
                                 bottom_row.unwrap().get(idx..idx + 1).unwrap_or(".");
                             let bottom_cur = match bottom_cur_idx {
-                                "1" => &bottom_line.get(idx..idx + 1).unwrap_or(""),
+                                "1" => bottom_line.get(idx..idx + 1).unwrap_or(""),
                                 _ => "",
                             };
 
@@ -328,13 +326,13 @@ pub fn part_two(input: &str) -> Option<u64> {
                         }
                     } else if right_get == "1" && left_get != "1" {
                         // available on left, check on top/bottom
-                        let start_min = idx.checked_sub(1).unwrap_or(0);
+                        let start_min = idx.saturating_sub(1);
                         let top_index = match top_row {
-                            Some(x) => x.get(start_min..idx + 2).unwrap_or("").contains("1"),
+                            Some(x) => x.get(start_min..idx + 2).unwrap_or("").contains('1'),
                             None => false,
                         };
                         let bottom_index = match bottom_row {
-                            Some(x) => x.get(start_min..idx + 2).unwrap_or("").contains("1"),
+                            Some(x) => x.get(start_min..idx + 2).unwrap_or("").contains('1'),
                             None => false,
                         };
 
@@ -364,7 +362,7 @@ pub fn part_two(input: &str) -> Option<u64> {
 
                             let top_cur_idx = top_row.unwrap().get(idx..idx + 1).unwrap_or(".");
                             let top_cur = match top_cur_idx {
-                                "1" => &top_line.get(idx..idx + 1).unwrap_or(""),
+                                "1" => top_line.get(idx..idx + 1).unwrap_or(""),
                                 _ => "",
                             };
 
@@ -392,7 +390,7 @@ pub fn part_two(input: &str) -> Option<u64> {
                             let bottom_cur_idx =
                                 bottom_row.unwrap().get(idx..idx + 1).unwrap_or(".");
                             let bottom_cur = match bottom_cur_idx {
-                                "1" => &bottom_line.get(idx..idx + 1).unwrap_or(""),
+                                "1" => bottom_line.get(idx..idx + 1).unwrap_or(""),
                                 _ => "",
                             };
 
@@ -439,8 +437,8 @@ pub fn part_two(input: &str) -> Option<u64> {
 
                         if top_mid != "1" && top_left == "1" && top_right == "1" {
                             let (left_num, right_num) = get_adjacent_number_pairs(
-                                &top_line,
-                                &top_line,
+                                top_line,
+                                top_line,
                                 top_row_real,
                                 top_row_real,
                                 idx,
@@ -452,8 +450,8 @@ pub fn part_two(input: &str) -> Option<u64> {
                             number_vec.push((left_num, right_num));
                         } else if bottom_mid != "1" && bottom_left == "1" && bottom_right == "1" {
                             let (left_num, right_num) = get_adjacent_number_pairs(
-                                &bottom_line,
-                                &bottom_line,
+                                bottom_line,
+                                bottom_line,
                                 bottom_row_real,
                                 bottom_row_real,
                                 idx,
@@ -465,13 +463,13 @@ pub fn part_two(input: &str) -> Option<u64> {
                             number_vec.push((left_num, right_num));
                         } else {
                             let top_left_adjacent =
-                                get_adjacent_kind_number(&top_row_real, idx, true);
+                                get_adjacent_kind_number(top_row_real, idx, true);
                             let top_right_adjacent =
-                                get_adjacent_kind_number(&top_row_real, idx, false);
+                                get_adjacent_kind_number(top_row_real, idx, false);
                             let bottom_left_adjacent =
-                                get_adjacent_kind_number(&bottom_row_real, idx, true);
+                                get_adjacent_kind_number(bottom_row_real, idx, true);
                             let bottom_right_adjacent =
-                                get_adjacent_kind_number(&bottom_row_real, idx, false);
+                                get_adjacent_kind_number(bottom_row_real, idx, false);
 
                             let top_any = (top_left_adjacent.len() + top_right_adjacent.len()) > 0;
                             let bottom_any =
@@ -498,13 +496,13 @@ pub fn part_two(input: &str) -> Option<u64> {
 
                                 let top_cur_idx = top_row_real.get(idx..idx + 1).unwrap_or(".");
                                 let top_cur = match top_cur_idx {
-                                    "1" => &top_line.get(idx..idx + 1).unwrap_or(""),
+                                    "1" => top_line.get(idx..idx + 1).unwrap_or(""),
                                     _ => "",
                                 };
                                 let bottom_cur_idx =
                                     bottom_row_real.get(idx..idx + 1).unwrap_or(".");
                                 let bottom_cur = match bottom_cur_idx {
-                                    "1" => &bottom_line.get(idx..idx + 1).unwrap_or(""),
+                                    "1" => bottom_line.get(idx..idx + 1).unwrap_or(""),
                                     _ => "",
                                 };
 
@@ -521,8 +519,7 @@ pub fn part_two(input: &str) -> Option<u64> {
                                 ));
                             }
                         }
-                    } else if top_row.is_some() {
-                        let top_row_real = top_row.unwrap();
+                    } else if let Some(top_row_real) = top_row {
                         let top_line = line_splits.get(top_idx - 1).unwrap();
 
                         let top_mid = top_row_real.get(idx..idx + 1).unwrap_or(".");
@@ -535,8 +532,8 @@ pub fn part_two(input: &str) -> Option<u64> {
                         // If top_mid is "." and left right is number
                         if top_mid != "1" && top_left == "1" && top_right == "1" {
                             let (left_num, right_num) = get_adjacent_number_pairs(
-                                &top_line,
-                                &top_line,
+                                top_line,
+                                top_line,
                                 top_row_real,
                                 top_row_real,
                                 idx,
@@ -547,8 +544,7 @@ pub fn part_two(input: &str) -> Option<u64> {
 
                             number_vec.push((left_num, right_num));
                         }
-                    } else if bottom_row.is_some() {
-                        let bottom_row_real = bottom_row.unwrap();
+                    } else if let Some(bottom_row_real) = bottom_row {
                         let bottom_line = line_splits.get(top_idx + 1).unwrap();
 
                         let bottom_mid = bottom_row_real.get(idx..idx + 1).unwrap_or(".");
@@ -561,8 +557,8 @@ pub fn part_two(input: &str) -> Option<u64> {
                         // If bottom_mid is "." and left right is number
                         if bottom_mid != "1" && bottom_left == "1" && bottom_right == "1" {
                             let (left_num, right_num) = get_adjacent_number_pairs(
-                                &bottom_line,
-                                &bottom_line,
+                                bottom_line,
+                                bottom_line,
                                 bottom_row_real,
                                 bottom_row_real,
                                 idx,
