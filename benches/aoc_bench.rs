@@ -14,10 +14,16 @@ aoc_init_bench!(
     part_one = advent_of_code::solutions::day02::part_one;
     part_two = advent_of_code::solutions::day02::part_two;
 );
+aoc_init_bench!(
+    name = bench_day_four;
+    day = 4;
+    part_one = advent_of_code::solutions::day04::part_one;
+    part_two = advent_of_code::solutions::day04::part_two;
+);
 
 criterion_group!(
     name = benches;
     config = Criterion::default();
-    targets = bench_day_one, bench_day_two
+    targets = bench_day_one, bench_day_two, bench_day_four
 );
 criterion_main!(benches);
