@@ -38,7 +38,7 @@ impl ScratchCard {
 
         let mut total = 0;
         for our in our_numbers.iter() {
-            if winning_numbers.contains(&our) {
+            if winning_numbers.contains(our) {
                 match total {
                     0 => total += 1,
                     _ => total *= 2,
@@ -64,7 +64,7 @@ pub fn part_one(input: &str) -> Option<u32> {
                 let scratch_card = ScratchCard::parse(line);
                 let intersected = scratch_card.intersect();
                 // multiply by 2 for each number in the intersection
-                if intersected.len() == 0 {
+                if intersected.is_empty() {
                     return 0;
                 }
                 let total = (intersected.len() - 1) as u32;
@@ -119,9 +119,7 @@ fn recursively_scratch_card(
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    let cards: Vec<ScratchCard> = split_into_lines(input)
-        .map(|line| ScratchCard::parse(line))
-        .collect();
+    let cards: Vec<ScratchCard> = split_into_lines(input).map(ScratchCard::parse).collect();
 
     let mut hashed_cards: HashMap<u32, &ScratchCard> = HashMap::new();
     for card in cards.iter() {
