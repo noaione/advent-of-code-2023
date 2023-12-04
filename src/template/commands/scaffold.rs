@@ -16,7 +16,7 @@ pub fn part_two(input: &str) -> Option<u32> {
     advent_of_code::solutions::dayDAYPART::part_two(input)
 }
 
-advent_of_code::aoc_test!(DAY_NUMBER);
+advent_of_code::aoc_test!(DAY);
 "#;
 
 const SOLUTIONS_TEMPLATE: &str = r#"use crate::solutions::common::split_into_lines;
