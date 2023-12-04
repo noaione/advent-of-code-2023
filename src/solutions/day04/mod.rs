@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use crate::solutions::common::split_into_lines;
 
@@ -48,6 +48,13 @@ impl ScratchCard {
 
         Self::new(card_index, winning_numbers, our_numbers)
     }
+
+    fn intersect(&self) -> Vec<&u32> {
+        let hash_win: HashSet<&u32> = HashSet::from_iter(self.winning_numbers.iter());
+        let hash_our: HashSet<&u32> = HashSet::from_iter(self.our_numbers.iter());
+
+        hash_our.intersection(&hash_win).cloned().collect()
+    }
 }
 
 pub fn part_one(input: &str) -> Option<u32> {
@@ -55,17 +62,14 @@ pub fn part_one(input: &str) -> Option<u32> {
         split_into_lines(input)
             .map(|line| {
                 let scratch_card = ScratchCard::parse(line);
-                let mut total = 0;
-                for our in scratch_card.our_numbers.iter() {
-                    if scratch_card.winning_numbers.contains(&our) {
-                        match total {
-                            0 => total += 1,
-                            _ => total *= 2,
-                        }
-                    }
+                let intersected = scratch_card.intersect();
+                // multiply by 2 for each number in the intersection
+                if intersected.len() == 0 {
+                    return 0;
                 }
+                let total = (intersected.len() - 1) as u32;
 
-                total
+                2u32.pow(total)
             })
             .sum::<u32>(),
     )
@@ -75,15 +79,10 @@ fn recursively_scratch_card(
     current_card: &ScratchCard,
     hashed_cards: &HashMap<u32, &ScratchCard>,
     collected: &mut HashMap<u32, u32>,
+    max_card: &u32,
     is_deep: bool,
 ) {
-    let max_card = hashed_cards.keys().max().unwrap();
-
-    let total_won = current_card
-        .our_numbers
-        .iter()
-        .filter(|&our| current_card.winning_numbers.contains(&our))
-        .count();
+    let total_won = current_card.intersect().len() as u32;
 
     if !is_deep {
         let existing = collected.get(&current_card.number).unwrap_or(&0);
@@ -95,7 +94,7 @@ fn recursively_scratch_card(
     }
 
     for index in 0..total_won {
-        let act_index = current_card.number + ((index + 1) as u32);
+        let act_index = current_card.number + index + 1;
         let next_card = hashed_cards.get(&act_index);
         match next_card {
             Some(&card) => {
@@ -103,7 +102,7 @@ fn recursively_scratch_card(
                 // add the current one to the collected
                 let existing = collected.get(&card.number).unwrap_or(&0);
                 collected.insert(card.number, existing + 1);
-                recursively_scratch_card(card, hashed_cards, collected, true);
+                recursively_scratch_card(card, hashed_cards, collected, max_card, true);
             }
             None => {
                 // add the current one to the collected
@@ -129,9 +128,11 @@ pub fn part_two(input: &str) -> Option<u32> {
         hashed_cards.insert(card.number, card);
     }
 
+    let max_card = hashed_cards.keys().max().unwrap();
+
     let mut collected: HashMap<u32, u32> = HashMap::new();
     for card in cards.iter() {
-        recursively_scratch_card(card, &hashed_cards, &mut collected, false)
+        recursively_scratch_card(card, &hashed_cards, &mut collected, max_card, false);
     }
 
     let values = collected.values().sum::<u32>();
