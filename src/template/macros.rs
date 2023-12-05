@@ -6,6 +6,45 @@ macro_rules! aoc_init_bench {
         day = $day:expr;
         part_one = $part_a_func:path;
         part_two = $part_b_func:path;
+        parser = $parser_func:path;
+    ) => {
+        fn $name(c: &mut Criterion) {
+            let inputs = advent_of_code::template::read_file("inputs", Day::new($day).unwrap());
+
+            c.bench_function("parse_input", |b| b.iter(|| $parser_func(&inputs)));
+            c.bench_function("part_a", |b| b.iter(|| $part_a_func(&inputs)));
+            c.bench_function("part_b", |b| b.iter(|| $part_b_func(&inputs)));
+        }
+    };
+    (
+        name = $name:ident;
+        day = $day:expr;
+        part_one = $part_a_func:path;
+        parser = $parser_func:path;
+    ) => {
+        fn $name(c: &mut Criterion) {
+            let inputs = advent_of_code::template::read_file("inputs", Day::new($day).unwrap());
+
+            c.bench_function("parse_input", |b| b.iter(|| $parser_func(&inputs)));
+            c.bench_function("part_a", |b| b.iter(|| $part_a_func(&inputs)));
+        }
+    };
+    (
+        name = $name:ident;
+        day = $day:expr;
+        parser = $parser_func:path;
+    ) => {
+        fn $name(c: &mut Criterion) {
+            let inputs = advent_of_code::template::read_file("inputs", Day::new($day).unwrap());
+
+            c.bench_function("parse_input", |b| b.iter(|| $parser_func(&inputs)));
+        }
+    };
+    (
+        name = $name:ident;
+        day = $day:expr;
+        part_one = $part_a_func:path;
+        part_two = $part_b_func:path;
     ) => {
         fn $name(c: &mut Criterion) {
             let inputs = advent_of_code::template::read_file("inputs", Day::new($day).unwrap());
@@ -49,10 +88,10 @@ macro_rules! aoc_test {
         }
     };
     ($day:expr, $expect_a:expr) => {
-        $crate::aoc_test!($day, $expect_a, None, None, None)
+        $crate::aoc_test!($day, $expect_a, None);
     };
     ($day:expr) => {
-        $crate::aoc_test!($day, None, None, None, None)
+        $crate::aoc_test!($day, None, None);
     };
 }
 
@@ -82,10 +121,10 @@ macro_rules! aoc_test_ex {
         }
     };
     ($day:expr, $expect_a:expr) => {
-        $crate::aoc_test_ex!($day, $expect_a, None, None, None)
+        $crate::aoc_test_ex!($day, $expect_a, None);
     };
     ($day:expr) => {
-        $crate::aoc_test_ex!($day, None, None, None, None)
+        $crate::aoc_test_ex!($day, None, None);
     };
 }
 
