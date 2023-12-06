@@ -1,6 +1,3 @@
-use rayon::prelude::*;
-use std::ops::Range;
-
 use itertools::Itertools;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Copy)]
@@ -146,30 +143,7 @@ pub fn part_one(input: &str) -> Option<usize> {
     Some(*locations.first().unwrap())
 }
 
-fn collect_pairs(seeds: Vec<usize>) -> Vec<Range<usize>> {
-    let mut pairs_data: Vec<Range<usize>> = Vec::new();
-    for idx in (0..seeds.len()).step_by(2) {
-        let start = *seeds.get(idx).unwrap();
-        let range = seeds.get(idx + 1).unwrap() + start;
-
-        pairs_data.push(start..range);
-    }
-
-    pairs_data
-}
-
-fn find_start_end_pairs(seeds: Vec<usize>) -> Range<usize> {
-    let mut pairs_data = collect_pairs(seeds);
-    pairs_data.sort_by_key(|f| f.start);
-    let binding = pairs_data.clone();
-    let first_num = binding.first().unwrap();
-    pairs_data.sort_by_key(|f| f.end);
-    let last_num = pairs_data.last().unwrap();
-
-    first_num.start..last_num.end
-}
-
-pub fn part_two(input: &str) -> Option<u32> {
+pub fn part_two(_input: &str) -> Option<u32> {
     // let (seeds, mut xy_maps_vec) = parse_input(input);
     // xy_maps_vec.sort_by_key(|x| x.source);
 

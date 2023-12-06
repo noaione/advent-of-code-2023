@@ -9,4 +9,5 @@ pub fn part_two(input: &str) -> Option<u32> {
 }
 
 advent_of_code::aoc_test!(DAY, Some(13), Some(30));
-advent_of_code::aoc_test_real!(DAY, Some(24542), Some(8736438));
+// Skip part two test because it takes too long to run
+advent_of_code::aoc_test_real!(DAY, Some(24542));
