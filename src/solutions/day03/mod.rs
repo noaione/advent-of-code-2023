@@ -422,19 +422,6 @@ pub fn part_two(input: &str) -> Option<u64> {
                             .unwrap_or(".");
                         let bottom_right = bottom_row_real.get(idx + 1..idx + 2).unwrap_or(".");
 
-                        if line.starts_with(
-                            "...................352...........................*....282.......$",
-                        ) {
-                            println!(
-                                "top: {:?} | left: {}, mid: {}, right: {}",
-                                top_row_real, top_left, top_mid, top_right
-                            );
-                            println!(
-                                "bottom: {:?} | left: {}, mid: {}, right: {}",
-                                bottom_row_real, bottom_left, bottom_mid, bottom_right
-                            );
-                        }
-
                         if top_mid != "1" && top_left == "1" && top_right == "1" {
                             let (left_num, right_num) = get_adjacent_number_pairs(
                                 top_line,
@@ -571,8 +558,6 @@ pub fn part_two(input: &str) -> Option<u64> {
                         }
                     }
                 }
-
-                println!("line: {line} | {number_vec:?}");
 
                 number_vec
                     .iter()
