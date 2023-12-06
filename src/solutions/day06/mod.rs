@@ -23,15 +23,10 @@ pub fn parse_input(input: &str) -> (Vec<usize>, Vec<usize>) {
 }
 
 fn solve(max_time: usize, record_distance: usize) -> usize {
-    let mut possible_max = max_time;
-    for hold in (0..max_time).rev() {
-        let time_left = max_time - hold;
-        let covered_distance = hold * time_left;
-        if covered_distance > record_distance {
-            possible_max = hold;
-            break;
-        }
-    }
+    let possible_max = (1..max_time)
+        .rev()
+        .find(|&hold| (hold * (max_time - hold)) > record_distance)
+        .unwrap();
 
     (max_time - possible_max..possible_max).len() + 1
 }
