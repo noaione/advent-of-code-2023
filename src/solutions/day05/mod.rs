@@ -63,7 +63,7 @@ impl XYMap {
             .map(|x| x.parse::<usize>().unwrap())
             .collect();
 
-        let dest_start = *split_range.get(0).unwrap();
+        let dest_start = *split_range.first().unwrap();
         let src_start = *split_range.get(1).unwrap();
         let range = *split_range.get(2).unwrap();
 
@@ -104,7 +104,7 @@ pub fn parse_input(input: &str) -> (Vec<usize>, Vec<XYMap>) {
 
     let mut xy_maps_vec = Vec::new();
     for &line in lines.iter() {
-        let mut line_splits = line.split("\n");
+        let mut line_splits = line.split('\n');
         let header = line_splits.next().unwrap().replace(" map:", "");
         let (from_head, _) = header.trim().split_once("-to-").unwrap();
 
