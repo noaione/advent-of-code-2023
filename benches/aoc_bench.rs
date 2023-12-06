@@ -26,10 +26,17 @@ aoc_init_bench!(
     part_one = advent_of_code::solutions::day05::part_one;
     parser = advent_of_code::solutions::day05::parse_input;
 );
+aoc_init_bench!(
+    name = bench_day_six;
+    day = 6;
+    part_one = advent_of_code::solutions::day06::part_one;
+    part_two = advent_of_code::solutions::day06::part_two;
+    parser = advent_of_code::solutions::day06::parse_input;
+);
 
 criterion_group!(
     name = benches;
     config = Criterion::default();
-    targets = bench_day_one, bench_day_two, bench_day_four, bench_day_five
+    targets = bench_day_one, bench_day_two, bench_day_four, bench_day_five, bench_day_six
 );
 criterion_main!(benches);
